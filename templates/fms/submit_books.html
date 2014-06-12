@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!--link rel="shortcut icon" href="../../assets/ico/favicon.ico"-->
+
+  <title>Manasaram Architects</title>
+
+  <link rel="stylesheet" href="/static/css/jquery-ui.css" type="text/css" media="all"/>
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css" /> 
+
+  <style type="text/css">
+     .container {
+      width: 600px;
+      margin-left: 350px;
+      margin-top: 10px;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+    .issue-data {
+      width: 600px;
+      margin-left: 20px;
+    }
+    .issued-books {
+      margin-left: 30px;
+    }
+    .table1 {
+      margin-left: 20px;
+    }
+    .table3 td {
+      width: 100px;
+      margin: 10px;
+      align: center;
+    }
+    input {
+      width: 300px;
+      margin-top: 10px;
+    }
+    .table1 td {
+      width: 100px;
+      padding: 10px;
+    }
+    .table1 label {
+      margin-top: 10px;
+      margin-left: 60px;
+      font-size: 18px;
+    }
+    .btn_box {
+      margin-left: 220px;
+    }
+    .footer{
+      width: 400px;
+      text-align: center;
+      height: 20px;
+      font-weight: bold;
+      font-size: 15px;
+      margin-left: 120px;
+    }
+  </style>
+
+
+  <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/js/jquery-ui.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $( "#person_name" ).autocomplete({
+		     source: function(request, response) {
+		      $.ajax({
+		          url: "/fms/issued-person/search/",
+		          data: { q: $("#person_name").val() },
+		          dataType: "json",
+		          type: "GET",
+		          success: function(data){
+                response($.map(data, function(user) {
+                  return { 
+                    label: user.group+": "+user.name,
+                    value: user.name,
+                    id: user.id
+                  }
+                }));
+		          } 
+		        });
+         },
+		      selectFirst:true,
+		      minLength:2,
+		      select: function(event,ui) {
+			      //console.log(ui.item.id);
+            $('#main').html('');
+            var data = { issue_id: ui.item.id };
+            $.get("/fms/get_book_issued_data/", data, function(res){
+              console.log(res);
+              
+              var p_ele = '<div class="issue-data">'+
+                            '<legend>Person Details</legend>'+
+                            '<table class="table table-striped table-bordered table-condensed">'+
+                              '<tr><td>Name: </td><td>'+res.pdata.person_name+'</td></tr>'+
+                              '<tr><td>Email: </td><td>'+res.pdata.person_email+'</td></tr>'+
+                              '<tr><td>Mobile No.: </td><td>'+res.pdata.person_mobile_no+'</td></tr>'+
+                              '<tr><td>Issued Date: </td><td>'+res.pdata.issue_date+'</td></tr>'+
+                              '<tr><td>Return Date: </td><td>'+res.pdata.return_date+'</td></tr>'+
+                          '</table>'+
+                        '</div><br>';                 
+             $('#main').append(p_ele);
+        
+             var b_ele = '<div class="issued-books">'+
+                          '<legend>Issued Books</legend>'+
+                          '<form class="submit-form" action="#">'+
+                          '<input type="hidden" name="issue_id" value="'+ res.pdata.issue_id +'"/>'+
+                          '<table class="table table-striped table-bordered table-condensed">'+
+                          '<tr><th>Name</th><th>ISBN No.</th><th>Author</th><th>Publisher</th><th>Status</th></tr>';
+ 
+             
+             var _bdata = res.bdata;
+             if(_bdata.length == 0) {
+               b_ele += '<tr><td colspan="5">No Issued Books Found</td></tr>';
+             }
+             for(var i=0; i<_bdata.length; i++)
+             {
+                b_ele += '<tr>'+
+                  '<td>'+_bdata[i].name+'</td>'+
+                  '<td>'+_bdata[i].isbn_number+'</td>'+
+                  '<td>'+_bdata[i].author+'</td>'+
+                  '<td>'+_bdata[i].publisher+'</td>'+
+                  '<td><input type="checkbox" class="checkbox" name="book_'+_bdata[i].id+'"/></td>'+
+                  '</tr>';
+             }
+             
+             b_ele += '</table></form></div>';
+             $('#main').append(b_ele);
+
+             if(_bdata.length > 0) {
+               var btn_ele = 
+                '<div style="clear:both;"></div>'+
+                '<div class="btn_box">'+
+                  '<table class="table3">'+
+                    '<tr>'+
+                      '<td>'+
+                        '<div id="btn1">'+
+                          '<button class="submit-btn btn btn-primary"> Submit </button>'+
+                        '</div>'+
+                      '</td>'+
+                      '<td>'+
+                        '<div id="btn3">'+
+                          '<buttoncontext class="btn"> Cancel </button>'+
+                        '</div>'+
+                      '</td>'+
+                    '</tr>'+
+                  '</table>'+
+                '</div>';
+
+               $('#main').append(btn_ele);
+             }
+             $(this).val('');
+
+            });
+		      }
+		});
+
+    $(document).on('click', '.submit-btn', function(){
+      var sdata = $('.submit-form').serialize();
+      $.get('/fms/submit-books/', sdata, function(res){
+         console.log('submitted!');
+         if(res=='ok')
+          window.location.href = '/fms/submit-books/?page_msg=submission saved successfully';
+      });
+      
+    });
+  });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h3>BOOK SUBMIT FORM</h3>
+    <h4>LIBRARY MANAGEMENT SYSTEM</h3><br>
+    <div id="msg">{{page_msg}}</div><br>
+    <form id="form1" action="#">
+      <table class="table1" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><label>Name:</label></td> <td><input type="text" id="person_name" name="person_name" /></td>
+        </tr>
+      </table>
+    </form>
+    <div id="main"></div>
+    <br><br><br>
+    <div class="footer">Copyright © 2014 by Manasaram Architects</div>
+  </div>
+</body>
+</html>
+

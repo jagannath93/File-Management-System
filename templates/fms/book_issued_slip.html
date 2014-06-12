@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="/static/css/jquery-ui.css" type="text/css" media="all"/>
+  <link rel="stylesheet" href="/static/css/fms-style.css" type="text/css" media="all"/>
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css" /> 
+  <style type="text/css">
+    .container {
+      width: 800px;
+      margin-left: 100px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+    .headingbox {
+      width: 360px;
+      margin-left: 200px;
+      text-align: center;
+    }
+    .tablebox1 {
+      margin-left: 20px;
+    }
+    .tablebox2 {
+      margin-left: 20px;
+    }
+    .table1 td {
+      width: 180px;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .table1 label {
+      margin-top: 10px;
+      margin-left: 50px;
+      font-size: 14px;
+    }
+    .table2 td, th {
+      width: 200px;
+      padding: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+    .btn_box {
+      margin-left: 280px;
+    }
+    .table3 td {
+      width: 100px;
+      margin: 10px;
+      align: center;
+    }
+    .footer{
+      width: 400px;
+      height: 20px;
+      font-weight: bold;
+      font-size: 15px;
+      margin-left: 550px;
+    }
+  </style>
+  <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+      $('.print-btn').click(function(){
+        $(this).parent().parent().parent().parent().hide();
+        window.print();
+        $(this).parent().parent().parent().parent().show();
+      });
+  });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="headingbox">
+      <h3>BOOK ISSUE SLIP</h3>
+      <h4>LIBRARY MANAGEMENT SYSTEM</h4><br><br>
+    </div>
+    <div class="tablebox1">
+      <legend>Person Details</legend>
+      <table class="table1" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><label>Name:</label></td> <td>{{pdata.person_name}}</td>
+          <td><label>User Group:</label></td> <td>{{pdata.person_group}}</td>
+        </tr>
+        <tr>
+          <td><label>Email:</label></td> <td>{{pdata.person_email}}</td>
+          <td><label>Mobile No.:</label></td> <td>{{pdata.person_mobile_no}}</td>
+        </tr>
+        <tr>
+          <td><label>Issue Date:</label></td> <td>{{pdata.issue_date}}</td>
+          <td><label>Return Date:</label></td> <td>{{pdata.return_date}}</td>
+        </tr>
+      </table>
+    </div>
+    <br><br>
+    <div class="tablebox2">
+      <legend>Issued Books</legend>
+      <table class="table2" cellspacing="0" cellpadding="0">
+          <tr>
+            <th>S.NO</th>
+            <th>NAME</th>
+            <th>ISBN CODE</th>
+            <th>PUBLISHER</th>
+            <th>EDITION</th>
+          </tr>
+        {% for book in bdata %} 
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{book.name}}</td>
+            <td>{{book.isbn_number}}</td>
+            <td>{{book.author}}</td>
+            <td>{{book.publisher}}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+    <br>
+    <div style="clear:both;"></div>
+    <div class="btn_box">
+      <table class="table3">
+        <tr>
+          <td>
+            <div id="btn1">
+              <button class="print-btn btn btn-primary"> Print Slip </button>
+            </div>
+          </td>
+          <td>
+            <div id="btn3">
+              <button class="btn"> Cancel </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br><br>
+    <div class="footer">Signature of the Issuer</div>
+  </div>
+</body>
+</html>

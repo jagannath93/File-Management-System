@@ -9,9 +9,15 @@ from fms.models import *
 
 def load_data():
   try:
+    print 'CP-1'
     wb = load_workbook(filename = "RACKIII.xlsx")
-    ws = wb.get_sheet_by_name("Reference")
-    for row in ws.rows:
+    print 'CP-2'
+    ws = wb.get_sheet_by_name("Ref books")
+    print dir(ws)
+    print ws.rows
+    rows = list(ws.rows)
+    print rows
+    for row in ws.iter_rows():
       rack = 'RACK III'
       category = 'Reference'
       shelf_set = 'set-1'

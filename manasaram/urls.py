@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^fms/', include('fms.urls')),
+    (r'^accounts/', include('allauth.urls')),
+                              {'next_page': '/successfully_logged_out/'})
 )
 
 
@@ -25,7 +27,7 @@ if DEBUG:
         'django.views.static.serve',
         {'document_root': 'static'}),
 
-		(r'^media/(?P<path>.*)$',
+		  (r'^media/(?P<path>.*)$',
         'django.views.static.serve',
         {'document_root': 'media'}
     ),)

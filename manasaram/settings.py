@@ -81,20 +81,29 @@ STATICFILES_DIRS = (
 AUTHENTICATION_BACKENDS = (
     #'social_auth.backends.google.GoogleOAuth2Backend',
     'django.contrib.auth.backends.ModelBackend',
-    'auth.GoogleBackend',
+     
+     # `allauth` specific authentication methods, such as login by e-mail
+     "allauth.account.auth_backends.AuthenticationBackend",
+    
+     #'auth.GoogleBackend',
 )
 
 LOGIN_URL          = '/fms/login/'
-LOGIN_REDIRECT_URL = '/fms/home/'
+LOGIN_REDIRECT_URL = "/fms/public/book-search/"
 LOGIN_ERROR_URL    = '/fms/error/'
+LOGOUT_REDIRECT_URL = '/fms/login/'
 
-OPENID_SSO_SERVER_URL = 'https://www.google.com/accounts/o8/id'
+SITE_ID = 1  # django-allauth setting
 
-OPENID_CREATE_USERS = True
-OPENID_UPDATE_DETAILS_FROM_SREG = True
-OPENID_USE_AS_ADMIN_LOGIN = False
+ACCOUNT_EMAIL_REQUIRED = True
 
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+#OPENID_SSO_SERVER_URL = 'https://www.google.com/accounts/o8/id'
+
+#OPENID_CREATE_USERS = True
+#OPENID_UPDATE_DETAILS_FROM_SREG = True
+#OPENID_USE_AS_ADMIN_LOGIN = False
+
+#SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -117,11 +126,17 @@ TEMPLATE_LOADERS = (
 # Check and remove if not useful
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.contrib.messages.context_processors.messages',
+    #'django.core.context_processors.debug',
+    #'django.core.context_processors.i18n',
+    #'django.core.context_processors.media',
+    #'django.contrib.messages.context_processors.messages',
     #'social_auth.context_processors.social_auth_by_type_backends',
+    
+    # Required by allauth template tags
+    'django.core.context_processors.request',
+    # allauth specific context processors
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',  
 )
 
 MIDDLEWARE_CLASSES = (
@@ -155,6 +170,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_openid_auth',
     'fms',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -190,9 +209,11 @@ LOGGING = {
     }
 }
 
+"""
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
+"""
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

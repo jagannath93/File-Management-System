@@ -33,7 +33,7 @@ def login(request):
 @login_required
 def home(request):
   """Login complete view, displays user data"""
-  if request.user.username in ALLOWED_USERS:
+  if request.user.email in ALLOWED_USERS:
     return render_to_response('fms/home.html', RequestContext(request))
   else:
     return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
@@ -45,7 +45,7 @@ def error(request):
 
 @login_required
 def book_issued_slip(request, issue_id):
-  if request.user.username in ALLOWED_USERS:
+  if request.user.email in ALLOWED_USERS:
     try:
       issue = IssueBooks.objects.get(pk=issue_id)
       books = issue.issued_books.all()
@@ -66,7 +66,7 @@ def book_issued_slip(request, issue_id):
    
 @login_required
 def issue_books(request):
-  if request.user.username in ALLOWED_USERS:
+  if request.user.email in ALLOWED_USERS:
     if request.method == 'GET' and request.is_ajax():
       person_name = request.GET.get('person_name')
       person_email = request.GET.get('person_email')
@@ -115,7 +115,8 @@ def public_book_search(request):
   """
     TODO: Add GET and is_ajax() restriction.
   """
-  if request.user.username in ALLOWED_USERS:
+  print request.user.email
+  if request.user.email in ALLOWED_USERS:
     if request.method == 'GET' and request.is_ajax():
       q = request.GET.get('q')
       filter1 = request.GET.get('filter1') # Search-by: author, publisher, isbn etc
@@ -179,7 +180,7 @@ def public_book_search(request):
 
 @login_required()
 def get_book_data(request):
-  if request.user.username in ALLOWED_USERS:
+  if request.user.email in ALLOWED_USERS:
     if request.method == 'GET' and request.is_ajax():
       book_id = request.GET.get('book_id')
       book = Book.objects.get(pk=book_id)
@@ -194,7 +195,7 @@ def get_book_data(request):
 
 @login_required
 def books_list(request):
-  if request.user.username in ALLOWED_USERS:
+  if request.user.email in ALLOWED_USERS:
     if request.method == 'GET' and request.is_ajax():
       try:
         category = request.GET.get('cat')
@@ -239,7 +240,7 @@ def books_list(request):
 
 @login_required
 def list_book_issues(request):
-  if request.user.username in ALLOWED_USERS:
+  if request.user.email in ALLOWED_USERS:
     try:
       issues = IssueBooks.objects.all()
       data = []
@@ -264,7 +265,7 @@ def list_book_issues(request):
 
 @login_required
 def get_book_issued_data(request):
-  if request.user.username in ALLOWED_USERS:
+  if request.user.email in ALLOWED_USERS:
     if request.method == 'GET' and request.is_ajax():
       try:
         issue_id = request.GET.get('issue_id')
@@ -288,7 +289,7 @@ def get_book_issued_data(request):
 
 @login_required
 def submit_books(request):
-  if request.user.username in ALLOWED_USERS:
+  if request.user.email in ALLOWED_USERS:
     if request.method == 'GET' and request.is_ajax():
       print request.GET
       try:
@@ -340,7 +341,7 @@ def submit_books(request):
 
 @login_required
 def issued_persons_search(request):
-  if request.user.username in ALLOWED_USERS:
+  if request.user.email in ALLOWED_USERS:
     q = request.GET.get('q')
     if q is not None:
       issued_persons = IssueBooks.objects.filter(
@@ -362,7 +363,7 @@ def issued_persons_search(request):
 
 @login_required
 def search_books(request):
-  if request.user.username in ALLOWED_USERS:
+  if request.user.email in ALLOWED_USERS:
     q = request.GET.get('q')
     if q is not None:
       books = Book.objects.filter(

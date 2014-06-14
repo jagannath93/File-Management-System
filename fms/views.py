@@ -110,7 +110,7 @@ def issue_books(request):
   else:
     return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
  
-@login_required()
+#@login_required()
 def public_book_search(request):
   """
     TODO: Add GET and is_ajax() restriction.

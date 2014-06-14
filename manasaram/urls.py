@@ -16,7 +16,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^fms/', include('fms.urls')),
     (r'^accounts/', include('allauth.urls')),
-                              {'next_page': '/successfully_logged_out/'})
 )
 
 

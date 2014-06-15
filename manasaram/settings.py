@@ -92,11 +92,13 @@ LOGIN_URL          = '/fms/login/'
 LOGIN_REDIRECT_URL = "/fms/public/book-search/"
 LOGIN_ERROR_URL    = '/fms/error/'
 
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = (="https")
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 
 SITE_ID = 1  # django-allauth setting
 
 ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_UNIQUE_EMAIL = True
 
 #OPENID_SSO_SERVER_URL = 'https://www.google.com/accounts/o8/id'
 
@@ -146,6 +148,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'sslify.middleware.SSLifyMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )

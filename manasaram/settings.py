@@ -172,7 +172,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_openid_auth',
+    #'django_openid_auth',
     'fms',
     'allauth',
     'allauth.account',
@@ -182,7 +182,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    'sslify',
 )
 
 # A sample logging configuration. The only tangible logging

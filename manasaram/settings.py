@@ -92,7 +92,7 @@ LOGIN_URL          = '/fms/login/'
 LOGIN_REDIRECT_URL = "/fms/public/book-search/"
 LOGIN_ERROR_URL    = '/fms/error/'
 
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = (="https")
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 
 SITE_ID = 1  # django-allauth setting
 

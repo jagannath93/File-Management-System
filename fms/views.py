@@ -449,7 +449,7 @@ def search_books(request):
       )
       data = []
       for book in books:
-        tmp = {'name': book.name, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'status': book.avilability_status }
+        tmp = {'name': book.name, 'code': book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
         data.append(tmp)
       return HttpResponse(json.dumps(data),  mimetype='application/json')
     else:

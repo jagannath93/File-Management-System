@@ -96,8 +96,9 @@ $(document).ready(function() {
       var data = form1_data +"&"+ form2_data;
       console.log(data);
       $.get("/fms/issue-books/", data, function(res){
-        console.log("Done."); 
-        window.location.href = '/fms/issue-books/';
+        console.log(res); 
+        if(res=='OK')
+          window.location.href = '/fms/issue-books/';
       });
     });
   });

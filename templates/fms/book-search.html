@@ -84,7 +84,7 @@
     $( ".search-bar" ).autocomplete({
 		     source: function(request, response) {
 		      $.ajax({
-		          url: "/fms/public/book-search/",
+		          url: "/fms/book/search/",
 		          data: { q: $(".search-bar").val(), filter1: $(".filter1").val(), filter2: $(".filter2").val() },
 		          dataType: "json",
 		          type: "GET",

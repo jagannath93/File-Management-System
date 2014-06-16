@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     # url(r'^$', 'archi.views.home', name='home'),
     # url(r'^archi/', include('archi.foo.urls')),
 
+
+    url(r'^$', 'fms.views.login'),
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

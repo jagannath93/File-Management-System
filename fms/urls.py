@@ -6,7 +6,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'archi.views.home', name='home'),
     # url(r'^archi/', include('archi.foo.urls')),
 
-    url(r'^login/', login),
+    #url(r'^login/', login),
     #url(r'^home/', home),
     url(r'^error/', error),
     url(r'^issue-books/', issue_books),

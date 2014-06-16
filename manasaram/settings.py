@@ -89,7 +89,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 LOGIN_URL          = '/'
-LOGIN_REDIRECT_URL = "/fms/public/book-search/"
+LOGIN_REDIRECT_URL = "/fms/book-search/"
 LOGIN_ERROR_URL    = '/fms/error/'
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"

@@ -132,6 +132,34 @@
   </script>
 </head>
 <body>
+  <div class="navbar navbar-static-top navbar-inverse">
+    <div class="navbar-inner">
+      <a class="brand" href="http://www.manasaramarchitects.com">Manasaram Architects</a>
+      <ul class="nav pull-right">
+       <li><a href="/fms/public/book-search/">Book Search</a></li>
+       <li><a href="/fms/book-list/">Books List</a></li>
+       <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">LMS<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/fms/issue-books/">Book Issue Form</a></li>
+          <li><a href="/fms/submit-books/">Book Submit Form</a></li>
+          <li class="divider"></li>
+          <li class="active"><a href="/fms/list-all-book-issues/">Book Issue list</a></li>
+        </ul>
+       </li>
+       <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.first_name}}  {{user.last_name}}<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/admin/">Admin</a></li>
+          <!--li class="divider"></li-->
+          <li><a href="/fms/logout/">Logout</a></li>
+        </ul>
+       </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Page Container -->
   <div class="container">
     <h3>BOOK LIST</h3>
     <h4>LIBRARY MANAGEMENT SYSTEM</h3><br>

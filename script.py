@@ -9,11 +9,11 @@ from fms.models import *
 
 def load_data():
   try:
-    wb = load_workbook(filename = "RACKIII.xlsx")
-    ws = wb.get_sheet_by_name("Reference")
+    wb = load_workbook(filename = "RACKI.xlsx")
+    ws = wb.get_sheet_by_name("Architecture")
     for row in ws.rows:
-      rack = 'RACK III'
-      category = 'Reference'
+      rack = 'RACK I'
+      category = 'Architecture'
       shelf_set = 'set-1'
 
       code = row[0].value
@@ -21,8 +21,14 @@ def load_data():
       author =  row[2].value
       publisher = row[3].value
       isbn = row[4].value
-      status = row[5].value
+      _status = row[5].value
       row = row[6].value
+
+      status = True
+      if _status == 'Y':
+        status = True
+      else:
+        status = False
       
       tmp = Book.objects.filter(code=code)
       if len(tmp) is 0:

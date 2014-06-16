@@ -107,9 +107,9 @@ def issue_books(request):
       return render_to_response('fms/issue_books.html', RequestContext(request))
   else:
     return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
- 
+
 @login_required()
-def public_book_search(request):
+def book_search(request):
   """
     TODO: Add GET and is_ajax() restriction.
   """
@@ -171,9 +171,87 @@ def public_book_search(request):
       else:
         return HttpResponse(json.dumps([]),  mimetype='application/json')
     else:
-      return render_to_response('fms/public-book-search.html', RequestContext(request))
+      return render_to_response('fms/book-search.html', RequestContext(request))
   else:
     return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
+
+@login_required()
+def get_book_data(request):
+  if request.user.email in ALLOWED_USERS:
+    if request.method == 'GET' and request.is_ajax():
+      book_id = request.GET.get('book_id')
+      book = Book.objects.get(pk=book_id)
+      #address = {'rack': book.address.rack, 'row': book.address.row, 'shelf_set': book.address.shelf_set}
+      bdata = {'name': book.name, 'code':book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
+      data = {'bdata': bdata}
+      return HttpResponse(json.dumps(data),  mimetype='application/json')
+    else:
+        return HttpResponse(json.dumps([]),  mimetype='application/json')
+  else:
+    return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
+
+def public_book_search(request):
+  """
+    TODO: Add GET and is_ajax() restriction.
+  """
+  if request.method == 'GET' and request.is_ajax():
+    q = request.GET.get('q')
+    filter1 = request.GET.get('filter1') # Search-by: author, publisher, isbn etc
+    filter2 = request.GET.get('filter2') # Search-by: Category   
+    
+    if q is not None:
+      books = []
+
+      # Filter2
+      if not filter2 == '':
+        cats = Category.objects.all().exclude(name='Reference')
+        cat = Category.objects.get(name=filter2)
+        if cat in cats:
+          books_set = cat.category_books.all()
+          books = books_set.all()
+        else:
+          return HttpResponse("Invalid filter!")
+      else:
+        books = Book.objects.all()
+
+      # Filter1
+      if not filter1 == '':
+        if filter1 == 'name':
+          books = books.filter(
+              Q( name__icontains = q )
+          )
+        elif filter1 == 'author':
+          books = books.filter(
+              Q( author__icontains = q )
+          )
+        elif filter1 == 'publisher':
+          books = books.filter(
+              Q( publisher__icontains = q )
+          )
+        elif filter1 == 'isbn_number':
+          books = books.filter(
+              Q( isbn_number__icontains = q )
+          )
+        else:
+          return HttpResponse("Invalid filter!")
+      else:
+        books = books.filter(
+          Q( name__icontains = q )|
+          Q( author__icontains = q )|
+          Q( isbn_number__icontains = q )|
+          Q( publisher__icontains = q )
+        )  
+
+      data = []
+      for book in books[:10]:
+        #address = {'rack': book.address.rack, 'row': book.address.row, 'shelf_set': book.address.shelf_set}
+        tmp = {'name': book.name, 'code': book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
+        data.append(tmp)
+      return HttpResponse(json.dumps(data),  mimetype='application/json')
+    else:
+      return HttpResponse(json.dumps([]),  mimetype='application/json')
+  else:
+    return render_to_response('fms/public-book-search.html', RequestContext(request))
 
 @login_required()
 def get_book_data(request):

@@ -180,7 +180,6 @@
           <li><a href="/fms/list-all-book-issues/">Book Issue list</a></li>
         </ul>
        </li>
-       {{user}}
        {% if user.is_autheticated %}
          <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.first_name}}  {{user.last_name}}<b class="caret"></b></a>
@@ -226,7 +225,6 @@
     <h3>BOOK SEARCH</h3>
     <h4>LIBRARY MANAGEMENT SYSTEM</h3><br>
 
-    <div id="msg">{{page_msg}}</div><br>
     <legend>Search Books</legend>
     <form class="form1" action="#">
       <table class="table1" cellspacing="0" cellpadding="0">
@@ -246,13 +244,9 @@
           <td>
             <select class="filter2">
               <option value=''>Category</option>
+              <option value='Architecture'>Architecture</option>
               <option value='Landscape'>Landscape</option>
               <option value='Interiors'>Interiors</option>
-              <option value='Materials'>Materials</option>
-              <option value='CGBMT'>CGBMT</option>
-              <option value='Manasaram'>Manasaram</option>
-              <option value='Bamboo-Technology'>Bamboo Technology</option>
-              <option value='Construction'>Construction</option>
               <option value='Reference'>Reference</option>
             </select>
           </td>

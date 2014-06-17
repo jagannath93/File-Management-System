@@ -4,7 +4,6 @@ from django.utils import timezone
 from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
 
-
 class Category(models.Model):
   name = models.CharField(max_length=30, null=False, blank=False)
 
@@ -42,7 +41,7 @@ class Document(models.Model):
   subcat1 = models.ForeignKey('DocumentSubCategory1', null=True, blank=True)  #Mandatory
   subcat2 = models.ForeignKey('DocumentSubCategory2', null=True, blank=True)  #Optional
   address = models.CharField(max_length=30, null=False, blank=False)
-  rack_number = models.CharField(max_length=10, null=True, blank=True) # CR9 - C2
+  rack_number = models.ForeignKey('DocumentRack', null=True, blank=True) # CR9 - C2
   added_on = models.DateTimeField(null=False, editable=False)
   last_updated = models.DateTimeField(null=False, editable=False)
 
@@ -54,6 +53,13 @@ class Document(models.Model):
       self.added_on = timezone.now()
     self.last_updated = timezone.now()
     return super(File, self).save(*args, **kwargs)
+
+class DocumentRack(models.Model):
+  rack_number = models.CharField(max_length=10, null=False, blank=False) # CR9 - C2``
+  type = models.CharField(max_length=10, null=True, blank=True)
+  
+  def __unicode__(self):
+    return self.rack_number
 
 class Book(models.Model):
   name = models.CharField(max_length=100, null=False, blank=False)

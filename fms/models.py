@@ -4,13 +4,56 @@ from django.utils import timezone
 from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
 
-#import datetime
 
 class Category(models.Model):
   name = models.CharField(max_length=30, null=False, blank=False)
 
   def __unicode__(self):
     return self.name
+
+class DocumentCategory(models.Model):
+  name = models.CharField(max_length=30, null=False, blank=False)
+  code = models.CharField(max_length=5, null=False, blank=False)
+
+  def __unicode__(self):
+    return self.code+": "+self.name
+
+class DocumentSubCategory1(models.Model):
+  cat = models.ForeignKey('DocumentCategory')
+  name = models.CharField(max_length=30, null=False, blank=False)
+  code = models.CharField(max_length=5, null=False, blank=False)
+  
+  def __unicode__(self):
+    return self.cat.code+" / "+self.code
+
+class DocumentSubCategory2(models.Model):
+  cat = models.ForeignKey('DocumentCategory')
+  subcat1 = models.ForeignKey('DocumentSubCategory1')
+  name = models.CharField(max_length=30, null=False, blank=False)
+  code = models.CharField(max_length=5, null=False, blank=False)
+  
+  def __unicode__(self):
+    return self.cat.code+" / "+self.subcat1.code+" / "+self.code
+
+class Document(models.Model):
+  name = models.CharField(max_length=120, null=False, blank=False)
+  document_number = models.CharField(max_length=15, null=True, blank=True)
+  cat = models.ForeignKey('DocumentCategory')  #Mandatory
+  subcat1 = models.ForeignKey('DocumentSubCategory1', null=True, blank=True)  #Mandatory
+  subcat2 = models.ForeignKey('DocumentSubCategory2', null=True, blank=True)  #Optional
+  address = models.CharField(max_length=30, null=False, blank=False)
+  rack_number = models.CharField(max_length=10, null=True, blank=True) # CR9 - C2
+  added_on = models.DateTimeField(null=False, editable=False)
+  last_updated = models.DateTimeField(null=False, editable=False)
+
+  def __unicode__(self):
+    return self.name
+
+  def save(self, *args, **kwargs):
+    if not self.id:
+      self.added_on = timezone.now()
+    self.last_updated = timezone.now()
+    return super(File, self).save(*args, **kwargs)
 
 class Book(models.Model):
   name = models.CharField(max_length=100, null=False, blank=False)

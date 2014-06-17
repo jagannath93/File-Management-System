@@ -51,6 +51,14 @@ class Document(models.Model):
   def save(self, *args, **kwargs):
     if not self.id:
       self.added_on = timezone.now()
+    if self.address is not None:
+      _ad = self.address
+      tmp = _ad.split('/')
+      self.cat = DocumentCategory.objects.get(code = tmp[0])
+      self.subcat1 = DocumentSubCategory1.objects.get(code = tmp[1])
+      if len(tmp) == 4:
+        self.subcat2 = DocumentSubCategory1.objects.get(code = tmp[2])
+      self.document_number = tmp[len(tmp)]
     self.last_updated = timezone.now()
     return super(File, self).save(*args, **kwargs)
 

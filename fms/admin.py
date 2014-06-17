@@ -6,7 +6,7 @@ class BookAdmin(admin.ModelAdmin):
   search_fields = ['name', 'isbn_number', 'category', 'publisher', 'address']
 
 admin.site.register(Category)
-admin.site.register(Book)
+admin.site.register(Book, BookAdmin)
 admin.site.register(BookAddress)
 admin.site.register(IssueBooks)
 

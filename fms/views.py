@@ -175,20 +175,20 @@ def book_search(request):
   else:
     return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
 
-@login_required()
+#@login_required()
 def get_book_data(request):
-  if request.user.email in ALLOWED_USERS:
-    if request.method == 'GET' and request.is_ajax():
-      book_id = request.GET.get('book_id')
-      book = Book.objects.get(pk=book_id)
-      #address = {'rack': book.address.rack, 'row': book.address.row, 'shelf_set': book.address.shelf_set}
-      bdata = {'name': book.name, 'code':book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
-      data = {'bdata': bdata}
-      return HttpResponse(json.dumps(data),  mimetype='application/json')
-    else:
-        return HttpResponse(json.dumps([]),  mimetype='application/json')
+  #if request.user.email in ALLOWED_USERS:
+  if request.method == 'GET' and request.is_ajax():
+    book_id = request.GET.get('book_id')
+    book = Book.objects.get(pk=book_id)
+    #address = {'rack': book.address.rack, 'row': book.address.row, 'shelf_set': book.address.shelf_set}
+    bdata = {'name': book.name, 'code':book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
+    data = {'bdata': bdata}
+    return HttpResponse(json.dumps(data),  mimetype='application/json')
   else:
-    return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
+      return HttpResponse(json.dumps([]),  mimetype='application/json')
+  #else:
+  #  return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
 
 def public_book_search(request):
   """
@@ -252,21 +252,6 @@ def public_book_search(request):
       return HttpResponse(json.dumps([]),  mimetype='application/json')
   else:
     return render_to_response('fms/public-book-search.html', RequestContext(request))
-
-@login_required()
-def get_book_data(request):
-  if request.user.email in ALLOWED_USERS:
-    if request.method == 'GET' and request.is_ajax():
-      book_id = request.GET.get('book_id')
-      book = Book.objects.get(pk=book_id)
-      #address = {'rack': book.address.rack, 'row': book.address.row, 'shelf_set': book.address.shelf_set}
-      bdata = {'name': book.name, 'code':book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
-      data = {'bdata': bdata}
-      return HttpResponse(json.dumps(data),  mimetype='application/json')
-    else:
-        return HttpResponse(json.dumps([]),  mimetype='application/json')
-  else:
-    return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
 
 @login_required
 def books_list(request):

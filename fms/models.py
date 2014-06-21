@@ -37,12 +37,12 @@ class DocumentSubCategory2(models.Model):
 # Document
 class Document(models.Model):
   name = models.CharField(max_length=120, null=False, blank=False)
-  document_number = models.CharField(max_length=15, null=True, blank=True)
+  #document_number = models.CharField(max_length=15, null=True, blank=True)
   cat = models.ForeignKey('DocumentCategory', null=True, blank=True)  # Optional
   subcat1 = models.ForeignKey('DocumentSubCategory1', null=True, blank=True)  # Optional
   subcat2 = models.ForeignKey('DocumentSubCategory2', null=True, blank=True)  # Optional
   address = models.CharField(max_length=30, null=False, blank=False)
-  rack_number = models.ForeignKey('DocumentRack', null=True, blank=True) # CR9 - C2
+  rack_name = models.ForeignKey('DocumentRack', null=True, blank=True) # CR9 - C2
   added_on = models.DateTimeField(null=False, editable=False)
   last_updated = models.DateTimeField(null=False, editable=False)
 
@@ -66,11 +66,11 @@ class Document(models.Model):
     return super(File, self).save(*args, **kwargs)
 
 class DocumentRack(models.Model):
-  rack_number = models.CharField(max_length=10, null=False, blank=False) # CR9 - C2``
+  rack_name = models.CharField(max_length=10, null=False, blank=False) # CR9 - C2``
   type = models.CharField(max_length=10, null=True, blank=True)
   
   def __unicode__(self):
-    return self.rack_number
+    return self.rack_name
 
 # Book
 class Book(models.Model):

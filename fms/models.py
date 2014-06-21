@@ -34,12 +34,13 @@ class DocumentSubCategory2(models.Model):
   def __unicode__(self):
     return self.cat.code+" / "+self.subcat1.code+" / "+self.code
 
+# Document
 class Document(models.Model):
   name = models.CharField(max_length=120, null=False, blank=False)
   document_number = models.CharField(max_length=15, null=True, blank=True)
-  cat = models.ForeignKey('DocumentCategory')  #Mandatory
-  subcat1 = models.ForeignKey('DocumentSubCategory1', null=True, blank=True)  #Mandatory
-  subcat2 = models.ForeignKey('DocumentSubCategory2', null=True, blank=True)  #Optional
+  cat = models.ForeignKey('DocumentCategory', null=True, blank=True)  # Optional
+  subcat1 = models.ForeignKey('DocumentSubCategory1', null=True, blank=True)  # Optional
+  subcat2 = models.ForeignKey('DocumentSubCategory2', null=True, blank=True)  # Optional
   address = models.CharField(max_length=30, null=False, blank=False)
   rack_number = models.ForeignKey('DocumentRack', null=True, blank=True) # CR9 - C2
   added_on = models.DateTimeField(null=False, editable=False)
@@ -51,6 +52,7 @@ class Document(models.Model):
   def save(self, *args, **kwargs):
     if not self.id:
       self.added_on = timezone.now()
+    """
     if self.address is not None:
       _ad = self.address
       tmp = _ad.split('/')
@@ -59,6 +61,7 @@ class Document(models.Model):
       if len(tmp) == 4:
         self.subcat2 = DocumentSubCategory1.objects.get(code = tmp[2])
       self.document_number = tmp[len(tmp)]
+    """
     self.last_updated = timezone.now()
     return super(File, self).save(*args, **kwargs)
 
@@ -69,6 +72,7 @@ class DocumentRack(models.Model):
   def __unicode__(self):
     return self.rack_number
 
+# Book
 class Book(models.Model):
   name = models.CharField(max_length=100, null=False, blank=False)
   code = models.CharField(max_length=15, null=True, blank=True)

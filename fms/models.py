@@ -37,17 +37,18 @@ class DocumentSubCategory2(models.Model):
 # Document
 class Document(models.Model):
   name = models.CharField(max_length=120, null=False, blank=False)
-  #document_number = models.CharField(max_length=15, null=True, blank=True)
   cat = models.ForeignKey('DocumentCategory', null=True, blank=True)  # Optional
   subcat1 = models.ForeignKey('DocumentSubCategory1', null=True, blank=True)  # Optional
   subcat2 = models.ForeignKey('DocumentSubCategory2', null=True, blank=True)  # Optional
-  address = models.CharField(max_length=30, null=False, blank=False)
-  rack_name = models.ForeignKey('DocumentRack', null=True, blank=True) # CR9 - C2
+  document_number = models.CharField(max_length=15, null=True, blank=True)
+  address = models.CharField(max_length=30, null=False, blank=False, editable=False)
+  rack = models.ForeignKey('DocumentRack', null=True, blank=True) # CR9 - C2
+  avilability_status = models.BooleanField(default=True, null=False, blank=False)
   added_on = models.DateTimeField(null=False, editable=False)
   last_updated = models.DateTimeField(null=False, editable=False)
 
   def __unicode__(self):
-    return self.name
+    return self.address +" :  "+ self.name
 
   def save(self, *args, **kwargs):
     if not self.id:
@@ -60,10 +61,20 @@ class Document(models.Model):
       self.subcat1 = DocumentSubCategory1.objects.get(code = tmp[1])
       if len(tmp) == 4:
         self.subcat2 = DocumentSubCategory1.objects.get(code = tmp[2])
-      self.document_number = tmp[len(tmp)]
+      self.document_nucodember = tmp[len(tmp)]
     """
+    _ad = ''
+    if self.cat is not None:
+      _ad += self.cat.code + "/"
+      if self.subcat1 is not None:
+        _ad += self.subcat1.code + "/"
+        if self.subcat2 is not None:
+          _ad += self.subcat2.code + "/"
+    if self.document_number is not None:
+      _ad += self.document_number
+    self.address = _ad
     self.last_updated = timezone.now()
-    return super(File, self).save(*args, **kwargs)
+    return super(Document, self).save(*args, **kwargs)
 
 class DocumentRack(models.Model):
   rack_name = models.CharField(max_length=10, null=False, blank=False) # CR9 - C2``

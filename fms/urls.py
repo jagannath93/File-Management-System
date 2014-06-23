@@ -9,6 +9,11 @@ urlpatterns = patterns('',
     #url(r'^login/', login),
     #url(r'^home/', home),
     url(r'^error/', error),
+
+    url(r'^get_sc1/', get_subcat1),
+    url(r'^get_sc2/', get_subcat2),
+    url(r'^document/search/', doc_search),
+
     url(r'^issue-books/', issue_books),
     url(r'^book_issued_slip/(?P<issue_id>\d+)/', book_issued_slip),
     url(r'^issued-person/search/', issued_persons_search),

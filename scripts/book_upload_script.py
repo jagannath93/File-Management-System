@@ -1,19 +1,19 @@
 
 # openpyxl imports
 from openpyxl.reader.excel import load_workbook
-from openpyxl.writer.excel import ExcelWriter
-from openpyxl.workbook import Workbook
+#from openpyxl.writer.excel import excelwriter
+from openpyxl.workbook import workbook
 from openpyxl.cell import get_column_letter
 
 from fms.models import *
 
 def load_data():
   try:
-    wb = load_workbook(filename = "RACKI.xlsx")
-    ws = wb.get_sheet_by_name("Architecture")
+    wb = load_workbook(filename = "racki.xlsx")
+    ws = wb.get_sheet_by_name("architecture")
     for row in ws.rows:
-      rack = 'RACK I'
-      category = 'Architecture'
+      rack = 'rack i'
+      category = 'architecture'
       shelf_set = 'set-1'
 
       code = row[0].value

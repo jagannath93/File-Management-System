@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="/static/css/jquery-ui.css" type="text/css" media="all"/>
   <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css" /> 
-  <link href="/static/css/books-list.css" rel="stylesheet"> 
+  <link href="/static/css/doc-list.css" rel="stylesheet">
 </head>
 <body>
   <div class="navbar navbar-static-top navbar-inverse">
@@ -22,9 +22,10 @@
       <a class="brand" href="http://www.manasaramarchitects.com">Manasaram Architects</a>
       <ul class="nav pull-right">
        <li><a href="/fms/document/search/">Document Search</a></li>
-       <li><a href="/fms/document/list/">Document List</a></li>
+       <li class="active"><a href="/fms/document/list/">Document List</a></li>
        <li><a href="/fms/book/search/">Book Search</a></li>
-       <li class="active"><a href="/fms/book-list/">Books List</a></li>
+
+       <li><a href="/fms/book-list/">Books List</a></li>
        <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">LMS<b class="caret"></b></a>
         <ul class="dropdown-menu">
@@ -47,83 +48,83 @@
   </div>
 
   <!-- Main Page Container -->
+  <h3 style="text-align:center;">DOCUMENT LIST</h3>
+  <h4 style="text-align:center;">LIBRARY MANAGEMENT SYSTEM</h3><br>
   <div class="container">
-    <h3>BOOK LIST</h3>
-    <h4>LIBRARY MANAGEMENT SYSTEM</h3><br>
-      <table class="table1" cellspacing="0" cellpadding="0">
-        <tr>
+     <table class="table1" cellspacing="0" cellpadding="0">
+        <tr class="filter-box">
           <td>
-            <span>Category: </span>
+            <span>Filters: </span>
           </td>
-          <td>
-            <select class="cat-filter">
-              <option value=''>Category</option>
-              <option value='Architecture'>Architecture</option>
-              <option value='Landscape'>Landscape</option>
-              <option value='Reference'>Reference</option>
+          <td class="filter1box">
+            <select class="filter1">
+              <option value="">Category</option>
+              <option value="MA">Manasaram</option>
+              <option value="CGBMT">CGBMT</option>
+              <option value="AGS">AditiGreenscapes</option>
+              <option value="AC">Aditi Construction</option>
             </select>
           </td>
         </tr>
       </table>
+      <div class="btn_box">
+        <button class="get_list_btn btn btn-primary">Get List</button> 
+      </div>
       <hr/>
     <div id="main">
      <div class="pagination">
       <ul>
-       {% if books.has_previous %}
-        <li><a href="?page={{ books.previous_page_number }}">Prev</a></li>
-       {% endif %}
-
-       <li><span>Page {{ books.number  }} of {{ books.paginator.num_pages  }}</span></li>
-       {% if books.has_next %}
-         <li><a href="?page={{ books.next_page_number }}">Next</a></li>
+       {% if docs.number %}
+         {% if docs.has_previous %}
+          <li><a href="?page={{ docs.previous_page_number }}">Prev</a></li>
+         {% endif %}
+         <li><span>Page {{ docs.number  }} of {{ docs.paginator.num_pages  }}</span></li>
+         {% if docs.has_next %}
+           <li><a href="?page={{ docs.next_page_number }}">Next</a></li>
+         {% endif %}
        {% endif %}
       </ul>
      </div> 
-
-      {% for book in books %}
-      <div class="book-data">
-      <legend> {{book.name}} </legend>
+       
+      {% for doc in docs %}
+      <div class="doc-data">
+      <legend> {{doc.name}} </legend>
       <table class="entry-table table table-striped table-bordered table-condensed">
         <tr>
           <td>
-            <div class="book-image">
-              <img src="/{{book.image}}" alt="cover-image"/>
-            </div>
-          </td>
-          <td>
-            <div class="book-table">
+            <div class="doc-table">
               <table class="table table-striped table-bordered table-condensed">
                 <tr>
                   <td>Name: </td>
-                  <td>{{book.name|format_val}}</td>
-                </tr>
-                <tr>
-                  <td>Number: </td>
-                  <td>{{book.code|format_val}}</td>
-                </tr>
-                <tr>
-                  <td>ISBN Number: </td>
-                  <td>{{book.isbn_number|format_val}}</td>
-                </tr>
-                <tr>
-                  <td>Publisher: </td>
-                  <td>{{book.publisher|format_val}}</td>
-                </tr>
-                <tr>
-                  <td>Author: </td>
-                  <td>{{book.author|format_val}}</td>
+                  <td>{{doc.name|format_val}}</td>
                 </tr>
                 <tr>
                   <td>Address: </td>
-                  <td>{{book.code|format_val}} / {{book.address|format_val}}</td>
+                  <td>{{doc.address|format_val}}</td>
+                </tr>
+                <tr>
+                  <td>Category: </td>
+                  <td>{{doc.cat.name|format_val}}</td>
+                </tr>
+                <tr>
+                  <td>SubCategory-1: </td>
+                  <td>{{doc.subcat1.name|format_val}}</td>
+                </tr>
+                <tr>
+                  <td>SubCategory-2: </td>
+                  <td>{{doc.subcat2.name|format_val}}</td>
+                </tr>
+                <tr>
+                  <td>Rack: </td>
+                  <td>{{doc.rack.rack_name|format_val}}</td>
                 </tr>
 
                 <tr>
                   <td>Availability: </td>
-                    {% if book.avilability_status|format_val == "YES" %}
-                      <td><span style="color:green;"><b>{{book.avilability_status|format_val}}</b></span></td>
+                    {% if doc.avilability_status|format_val == "YES" %}
+                      <td><span style="color:green;"><b>{{doc.avilability_status|format_val}}</b></span></td>
                     {% else %}
-                      <td><span style="color:red;"><b>{{book.avilability_status|format_val}}</b></span></td>
+                      <td><span style="color:red;"><b>{{doc.avilability_status|format_val}}</b></span></td>
                     {% endif %}
                 </tr>
               </table>
@@ -137,13 +138,14 @@
 
    <div class="pagination">
     <ul>
-     {% if books.has_previous %}
-      <li><a href="?page={{ books.previous_page_number }}">Prev</a></li>
-     {% endif %}
-
-     <li><span>Page {{ books.number  }} of {{ books.paginator.num_pages  }}</span></li>
-     {% if books.has_next %}
-       <li><a href="?page={{ books.next_page_number }}">Next</a></li>
+     {% if docs.number %}
+       {% if docs.has_previous %}
+        <li><a href="?page={{ docs.previous_page_number }}">Prev</a></li>
+       {% endif %}
+       <li><span>Page {{ docs.number  }} of {{ docs.paginator.num_pages  }}</span></li>
+       {% if docs.has_next %}
+         <li><a href="?page={{ docs.next_page_number }}">Next</a></li>
+       {% endif %}
      {% endif %}
     </ul>
    </div> 
@@ -155,6 +157,6 @@
   <script type="text/javascript" src="/static/js/jquery.min.js"></script>
   <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/static/js/jquery-ui.js"></script>
-  <script type="text/javascript" src="/static/js/books-list.js"></script>
+  <script type="text/javascript" src="/static/js/doc-list.js.js"></script>
 </body>
 </html>

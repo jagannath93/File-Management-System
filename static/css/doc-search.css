@@ -1,0 +1,67 @@
+.container {
+  width: 750px;
+  margin-left: 350px;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+legend {
+  text-align: left;
+  width: 1095px;
+  margin-left: -180px;
+}
+
+.item-legend {
+  text-align: left;
+  width: 800px;
+  margin-left: -30px;
+}
+.search-bar {
+  margin-left: -180px;
+}
+.doc-data {
+  display: block;
+}
+.doc-image {
+  padding: 5px;
+  padding-top: 10px;
+}
+.doc-image img{
+  display: block;
+  float: left;
+}
+.doc-table {
+  margin-left: 20px;
+  margin-top: 15px;
+  display: block;
+  width: 700px;
+  float: left;
+}
+.form1 {
+  float:left;
+  /*margin-left: -100px;*/
+}
+h4 
+{
+  text-align: center;
+}
+input {
+  width: 600px;
+  /*margin-top: 10px;*/
+}
+select {
+  width: 150px;
+}
+.table1 td {
+  width: 100px;
+  padding: 10px;
+  padding-left: 5px;
+}
+.footer{
+  width: 400px;
+  text-align: center;
+  height: 20px;
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 140px;
+}

@@ -77,11 +77,19 @@ class Document(models.Model):
     return super(Document, self).save(*args, **kwargs)
 
 class DocumentRack(models.Model):
-  rack_name = models.CharField(max_length=10, null=False, blank=False) # CR9 - C2``
+  rack_name = models.CharField(max_length=20, null=False, blank=False) # CR9 - C2``
+  document_type = models.CharField(max_length=30, null=True, blank=True)
   type = models.CharField(max_length=10, null=True, blank=True)
-  
+  image = models.ForeignKey('DocumentRackImage', null=True, blank=True)
+
   def __unicode__(self):
     return self.rack_name
+
+class DocumentRackImage(models.Model):
+  image = models.ImageField(upload_to = 'media/racks/', default = 'media/PLAN.png')  
+
+  def __unicode__(self):
+    return self.image.url
 
 # Book
 class Book(models.Model):

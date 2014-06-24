@@ -1,0 +1,56 @@
+.container {
+  width: 750px;
+  margin-left: 350px;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+legend {
+  text-align: left;
+  width: 950px;
+  margin-left: -100px;
+}
+.search-bar {
+  margin-left: -100px;
+}
+.book-data {
+  display: block;
+}
+.book-image {
+  padding: 5px;
+  padding-top: 10px;
+}
+.book-image img{
+  display: block;
+  width: 100px;
+  float: left;
+}
+.book-table {
+  display: block;
+  width: 600px;
+  float: left;
+}
+.form1 {
+  float:left;
+  /*margin-left: -100px;*/
+}
+input {
+  width: 600px;
+  /*margin-top: 10px;*/
+}
+select {
+  width: 150px;
+}
+.table1 td {
+  width: 100px;
+  padding: 10px;
+  padding-left: 5px;
+}
+.footer{
+  width: 400px;
+  text-align: center;
+  height: 20px;
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 120px;
+}

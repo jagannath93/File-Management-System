@@ -50,14 +50,33 @@ def load_data():
           doc.save()
 
         try:
-          rack = DocumentRackobjects.get(rack_name=rack_name)
+          rack = DocumentRack.objects.get(rack_name=rack_name)
           doc.rack = rack
           doc.save()
-        except:
-          pass
+        except Exception as e:
+          print e
         print address +":  OK"
       else:
         print address +":  Already existing..."
   except Exception as e:
     print e
-      
+     
+def load_racks():
+  try:
+    wb = load_workbook(filename = "RACK.xlsx")
+    ws = wb.get_sheet_by_name("Sheet1")
+    for row in ws.rows:
+      name = row[0].value
+      doc_type = row[1].value
+      _type = row[2].value
+
+      tmp = DocumentRack.objects.filter(rack_name=name)
+      if len(tmp) is 0:
+        doc = DocumentRack(rack_name=name, document_type=doc_type, type=_type)
+        doc.save()
+        print name+"  OK"
+      else:
+        print name+"  Already There..."
+  except Exception as e:
+    print e
+

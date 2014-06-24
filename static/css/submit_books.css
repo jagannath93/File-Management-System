@@ -1,0 +1,46 @@
+.container {
+  width: 600px;
+  margin-left: 350px;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+.issue-data {
+  width: 600px;
+  margin-left: 20px;
+}
+.issued-books {
+  margin-left: 30px;
+}
+.table1 {
+  margin-left: 20px;
+}
+.table3 td {
+  width: 100px;
+  margin: 10px;
+  align: center;
+}
+input {
+  width: 300px;
+  margin-top: 10px;
+}
+.table1 td {
+  width: 100px;
+  padding: 10px;
+}
+.table1 label {
+  margin-top: 10px;
+  margin-left: 60px;
+  font-size: 18px;
+}
+.btn_box {
+  margin-left: 220px;
+}
+.footer{
+  width: 400px;
+  text-align: center;
+  height: 20px;
+  font-weight: bold;
+  font-size: 15px;
+  margin-left: 120px;
+}

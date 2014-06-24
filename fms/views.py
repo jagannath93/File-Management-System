@@ -47,9 +47,9 @@ def error(request):
 def get_subcat1(request):
   if request.user.email in ALLOWED_USERS:
     if request.method == 'GET' and request.is_ajax():
-      cat_id = request.GET.get('cat')
+      cat_code = request.GET.get('cat')
       try:
-        cat = DocumentCategory.objects.get(pk=cat_id)
+        cat = DocumentCategory.objects.get(code=cat_code)
       except ObjectDoesNotExist:
         return HttpResponse('Invalid Category!')
       subcat1s = DocumentSubCategory1.objects.filter(cat=cat)
@@ -66,11 +66,11 @@ def get_subcat1(request):
 def get_subcat2(request):
   if request.user.email: # in ALLOWED_USERS:
     if request.method == 'GET': #and request.is_ajax():
-      cat_id = request.GET.get('cat')
-      subcat1_id = request.GET.get('subcat1')
+      cat_code = request.GET.get('cat')
+      subcat1_code = request.GET.get('subcat1')
       try:
-        cat = DocumentCategory.objects.get(pk=cat_id)
-        subcat1 = DocumentSubCategory1.objects.get(pk=subcat1_id)
+        cat = DocumentCategory.objects.get(code=cat_code)
+        subcat1 = DocumentSubCategory1.objects.get(code=subcat1_code, cat=cat)
       except ObjectDoesNotExist:
         pass
         return HttpResponse('Invalid Data!')
@@ -123,7 +123,6 @@ def doc_search(request):
           Q( address__icontains = q )
         )  
 
-        
         data = []
         for doc in docs[:10]:
           if doc.cat is not None:
@@ -131,19 +130,23 @@ def doc_search(request):
           else:
             _cat = {}
           if doc.subcat1 is not None:
-            _subcat1 = {'name': doc.cat.name, 'code': doc.cat.code}
+            _subcat1 = {'name': doc.subcat1.name, 'code': doc.subcat1.code}
           else:
             _subcat1 = {}
           if doc.subcat2 is not None:
-            _subcat2 = {'name': doc.cat.name, 'code': doc.cat.code}
+            _subcat2 = {'name': doc.subcat2.name, 'code': doc.subcat2.code}
           else:
             _subcat2 = {}
           if doc.rack is not None:
-            _rack = {'rack_name': doc.rack.rack_name, 'type': doc.rack.type}
+            if doc.rack.image is not None:
+              _rack = {'name': doc.rack.rack_name, 'type': doc.rack.type, 'image': doc.rack.image.image.url}
+            else:
+              _rack = {'name': doc.rack.rack_name, 'type': doc.rack.type}
           else:
             _rack = {}
 
-          tmp = {'name': doc.name, 'doc_no': doc.document_number , 'address': doc.address, 'cat': _cat, 'subcat1': _subcat1, 'subcat2': _subcat2, 'rack': _rack}
+
+          tmp = {'name': doc.name, 'doc_no': doc.document_number , 'address': doc.address, 'cat': _cat, 'subcat1': _subcat1, 'subcat2': _subcat2, 'rack': _rack, 'id': doc.pk, '_status': doc.avilability_status}
           data.append(tmp)
         return HttpResponse(json.dumps(data),  mimetype='application/json')
       else:
@@ -152,6 +155,109 @@ def doc_search(request):
       return render_to_response('fms/doc-search.html', RequestContext(request))
   else:
     return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
+
+@login_required
+def doc_list(request):
+  if request.user.email in ALLOWED_USERS:
+    if request.method == 'GET' and request.is_ajax():
+      filter1 = request.GET.get('filter1') # Search-by: Category
+      filter2 = request.GET.get('filter2') # Search-by: SubCategory1
+      filter3 = request.GET.get('filter3') # Search by: SubCategory2
+      
+      docs = []
+
+      # Filters
+      if not filter1 == '' and filter1 is not None:
+        cat = DocumentCategory.objects.filter(code=filter1)
+        if len(cat) is not 0:
+          docs = cat[0].document_set.all()
+          if not filter2 == '' and filter2 is not None:
+            subcat1 = DocumentSubCategory1.objects.filter(code=filter2)
+            if len(subcat1) is not 0:
+              docs = docs.filter(subcat1=subcat1[0])
+              if not filter3 == '' and filter3 is not None:
+                subcat2 = DocumentSubCategory2.objects.filter(code=filter3)
+                if len(subcat2) is not 0:
+                  docs = docs.filter(subcat2=subcat2[0])
+                else:
+                  return HttpResponse('Invalid filter3!')
+            else:
+              return HttpResponse('Invalid filter2!')
+        else:
+          return HttpResponse('Invalid filter1!')
+      else:
+        docs = Document.objects.all()
+
+      data = []
+      for doc in docs:
+        if doc.cat is not None:
+          _cat = {'name': doc.cat.name, 'code': doc.cat.code}
+        else:
+          _cat = {}
+        if doc.subcat1 is not None:
+          _subcat1 = {'name': doc.subcat1.name, 'code': doc.subcat1.code}
+        else:
+          _subcat1 = {}
+        if doc.subcat2 is not None:
+          _subcat2 = {'name': doc.subcat2.name, 'code': doc.subcat2.code}
+        else:
+          _subcat2 = {}
+        if doc.rack is not None:
+          _rack = {'name': doc.rack.rack_name, 'type': doc.rack.type}
+        else:
+          _rack = {}
+      
+        tmp = {'name': doc.name, 'doc_no': doc.document_number , 'address': doc.address, 'cat': _cat, 'subcat1': _subcat1, 'subcat2': _subcat2, 'rack': _rack, 'id': doc.pk, '_status': doc.avilability_status}
+        data.append(tmp)
+      return HttpResponse(json.dumps(data),  mimetype='application/json')
+    else:
+      doc_list = Document.objects.all()
+      paginator = Paginator(doc_list, 25)
+      page = request.GET.get('page')
+      if page is None:
+        page = 1 
+      docs = paginator.page(page)
+      return render_to_response('fms/doc-list.html', {'docs': docs}, RequestContext(request))
+  else:
+    return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
+
+
+"""
+@login_required
+def get_doc_data(request):
+  if request.user.email in ALLOWED_USERS:
+    if request.method == 'GET' and request.is_ajax():
+      doc_id = request.GET.get('id')
+      if doc_id is not None:
+        doc = Document.objects.get(pk=doc_id)
+        if doc.cat is not None:
+          _cat = {'name': doc.cat.name, 'code': doc.cat.code}
+        else:
+          _cat = {}
+        if doc.subcat1 is not None:
+          _subcat1 = {'name': doc.cat.name, 'code': doc.cat.code}
+        else:
+          _subcat1 = {}
+        if doc.subcat2 is not None:
+          _subcat2 = {'name': doc.cat.name, 'code': doc.cat.code}
+        else:
+          _subcat2 = {}
+        if doc.rack is not None:
+          _rack = {'rack_name': doc.rack.rack_name, 'type': doc.rack.type}
+        else:
+          _rack = {}
+
+        tmp = {'name': doc.name, 'doc_no': doc.document_number , 'address': doc.address, 'cat': _cat, 'subcat1': _subcat1, 'subcat2': _subcat2, 'rack': _rack, 'id': doc.pk, '_status': doc.status}
+
+        return HttpResponse(json.dumps(data),  mimetype='application/json')
+      else:
+        return HttpResponse(json.dumps([]),  mimetype='application/json')
+    else:
+      return HttpResponse("Invalid Request!")
+  else:
+    return HttpResponse("Access Denied!\n You don't have Permission to access this application!")
+"""
+
 @login_required
 def book_issued_slip(request, issue_id):
   if request.user.email in ALLOWED_USERS:

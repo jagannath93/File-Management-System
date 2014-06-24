@@ -4,13 +4,18 @@
 from openpyxl.reader.excel import load_workbook
 from openpyxl.workbook import workbook
 from openpyxl.cell import get_column_letter
+import sys
 
 from fms.models import *
 
-def load_data():
+def load_data(*args):
   try:
-    wb = load_workbook(filename = "Documents.xlsx")
-    ws = wb.get_sheet_by_name("R")
+    wb = load_workbook(filename = "Doc.xlsx")
+    #sheet_name = sys.argv[1]
+    #sheet_name = raw_input("Enter Sheet Name(IN CAPS): ")
+    #input_args = .split()
+
+    ws = wb.get_sheet_by_name(args[0])
     for row in ws.rows:
       address = row[0].value
       name = row[1].value
@@ -22,15 +27,15 @@ def load_data():
         doc = None
         if len(_ad) is 4:
           cat = DocumentCategory.objects.get(code=_ad[0])
-          subcat1 = DocumentSubCategory1.objects.get(code = _ad[1])
-          subcat2 = DocumentSubCategory2.objects.get(code = _ad[2])
+          subcat1 = DocumentSubCategory1.objects.get(code = _ad[1], cat=cat)
+          subcat2 = DocumentSubCategory2.objects.get(code = _ad[2], cat=cat, subcat1=subcat1)
           doc = Document(name=name, cat=cat, subcat1=subcat1, subcat2=subcat2, document_number=_ad[3])
           doc.save()
         elif len(_ad) is 3:
           cat = DocumentCategory.objects.get(code=_ad[0])
-          subcat1 = DocumentSubCategory1.objects.get(code = _ad[1])
+          subcat1 = DocumentSubCategory1.objects.get(code = _ad[1], cat=cat)
           try:
-            subcat2 = DocumentSubCategory2.objects.get(code = _ad[2])
+            subcat2 = DocumentSubCategory2.objects.get(code = _ad[2], subcat1=subcat1, cat=cat)
             doc = Document(name=name, cat=cat, subcat1=subcat1, subcat2=subcat2)
           except:
             doc = Document(name=name, cat=cat, subcat1=subcat1, document_number=_ad[2])
@@ -39,7 +44,7 @@ def load_data():
         elif len(_ad) is 2:
           cat = DocumentCategory.objects.get(code=_ad[0])
           try:
-            subcat1 = DocumentSubCategory1.objects.get(code = _ad[1])
+            subcat1 = DocumentSubCategory1.objects.get(code = _ad[1], cat=cat)
             doc = Document(name=name, cat=cat, subcat1=subcat1)
           except:
             doc = Document(name=name, cat=cat, document_number=_ad[1])
@@ -79,4 +84,3 @@ def load_racks():
         print name+"  Already There..."
   except Exception as e:
     print e
-

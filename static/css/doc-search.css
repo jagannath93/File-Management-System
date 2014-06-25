@@ -1,23 +1,22 @@
 .container {
   width: 750px;
-  margin-left: 350px;
+  margin-left: 100px;
   margin-top: 10px;
   margin-bottom: 50px;
   text-align: center;
 }
 legend {
   text-align: left;
-  width: 1095px;
-  margin-left: -180px;
+  width: 800px;
+  margin-left: 80px;
 }
-
 .item-legend {
   text-align: left;
   width: 800px;
   margin-left: -30px;
 }
 .search-bar {
-  margin-left: -180px;
+  margin-left: 80px;
 }
 .doc-data {
   display: block;
@@ -39,7 +38,9 @@ legend {
 }
 .form1 {
   float:left;
-  /*margin-left: -100px;*/
+}
+#main {
+  margin-left: 115px;
 }
 h4 
 {
@@ -47,7 +48,6 @@ h4
 }
 input {
   width: 600px;
-  /*margin-top: 10px;*/
 }
 select {
   width: 150px;
@@ -66,5 +66,5 @@ select {
   height: 20px;
   font-weight: bold;
   font-size: 15px;
-  margin-left: 140px;
+  margin-left: 380px;
 }

@@ -115,7 +115,7 @@ $(document).ready(function() {
                           '</table>'+
                           '</div></td></tr>'+
                           '<tr><td><h4>LOCATION MAP</h4></td></tr>'+
-                          '<tr><td><img src="/'+ ui.item.rack_image +'" alt="Document Location Image"/></td></tr></table>'+
+                          '<tr><td><img class="location-map" src="/'+ ui.item.rack_image +'" alt="Document Location Image"/></td></tr></table>'+
                         '</div><br>';                 
         $('#main').html(p_ele);
         $(this).val('');

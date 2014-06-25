@@ -57,6 +57,9 @@ select {
   padding: 10px;
   padding-left: 5px;
 }
+.location-map {
+  width: 100%;
+}
 .footer{
   width: 400px;
   text-align: center;

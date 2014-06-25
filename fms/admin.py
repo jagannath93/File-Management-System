@@ -6,8 +6,8 @@ class BookAdmin(admin.ModelAdmin):
   search_fields = ['name', 'code', 'isbn_number', 'author', 'publisher']
 
 class DocumentAdmin(admin.ModelAdmin):
-  list_filter = ('name',)
-  search_fields = ['name']
+  list_filter = ('name', 'address')
+  search_fields = ['name', 'address']
   fieldsets = (
     (None, {
         'fields': ('name', 'cat', 'subcat1', 'subcat2', 'document_number', 'address', 'rack', 'avilability_status', 'added_on', 'last_updated')

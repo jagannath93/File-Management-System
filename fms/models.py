@@ -4,12 +4,6 @@ from django.utils import timezone
 from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
 
-class Category(models.Model):
-  name = models.CharField(max_length=30, null=False, blank=False)
-
-  def __unicode__(self):
-    return self.name
-
 class DocumentCategory(models.Model):
   name = models.CharField(max_length=30, null=False, blank=False)
   code = models.CharField(max_length=5, null=False, blank=False)
@@ -90,6 +84,13 @@ class DocumentRackImage(models.Model):
 
   def __unicode__(self):
     return self.image.url
+
+# Book Category
+class Category(models.Model):
+  name = models.CharField(max_length=30, null=False, blank=False)
+
+  def __unicode__(self):
+    return self.name
 
 # Book
 class Book(models.Model):

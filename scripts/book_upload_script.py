@@ -51,10 +51,10 @@ def load_data(arg1, arg2):
         tmp[0].isbn_number = isbn
         tmp[0].avilability_status = status
         tmp[0].address = address
-        if os.path.isfile('media/books/'+arg1+'/'+code+'.jpg'): 
-          image = File(open('media/books/'+arg1+'/'+code+'.jpg')) 
+        if os.path.isfile('media/books/'+arg1+'/'+tmp[0].code+'.jpg'): 
+          image = File(open('media/books/'+arg1+'/'+tmp[0].code+'.jpg')) 
           tmp[0].image = image
         tmp[0].save()
-        print code+": - Already existing."
+        print code+": - Already existing... Updated"
   except Exception as e:
     print e

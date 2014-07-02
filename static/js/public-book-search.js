@@ -1,5 +1,15 @@
 $(document).ready(function() {
     var books = new Array();
+
+    $('input[class=search-bar]').tooltip({
+        placement: "top",
+        trigger: "hover"
+    });
+
+    $('input[class=search-bar]').keypress(function(e){
+      if ( e.which == 13  ) return false;
+    });
+
     $( ".search-bar" ).autocomplete({
 		     source: function(request, response) {
 		      $.ajax({

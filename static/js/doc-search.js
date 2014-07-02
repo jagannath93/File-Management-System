@@ -1,4 +1,14 @@
 $(document).ready(function() {
+
+    $('input[class=search-bar]').tooltip({
+        placement: "top",
+        trigger: "hover"
+    });
+
+    $('input[class=search-bar]').keypress(function(e){
+      if ( e.which == 13  ) return false;
+    });
+
     $(".filter1").on("change", function(){
       if(!($(this).val() == ''))
       {
@@ -96,7 +106,13 @@ $(document).ready(function() {
 		      selectFirst:true,
 		      minLength:2,
 		      select: function(event,ui) {
-           var p_ele = '<div class="doc-data">'+
+          
+          var _status = (ui.item._status == true) ? '<span style="color:green;"><b>YES<b></span>' : '<span style="color:red;"><b>No</b></span>';
+          var _subcat1 = (ui.item.subcat1_name != undefined) ? ui.item.subcat1_name:"--";
+          var _subcat2 = (ui.item.subcat2_name != undefined) ? ui.item.subcat2_name:"--";
+          var _rack_name = (ui.item.rack_name != undefined) ? ui.item.rack_name:"--";
+          var _rack_type = (ui.item.rack_type != undefined) ? ui.item.rack_type:"--";
+          var p_ele = '<div class="doc-data">'+
                             '<legend class="item-legend">'+ ui.item.value +'</legend>'+
                             '<table class="entry-table table table-striped table-bordered table-condensed">'+
                             '<tr><td><h4>DOCUMENT DATA</h4></td></tr>'+
@@ -107,11 +123,11 @@ $(document).ready(function() {
                               '<tr><td>Name: </td><td>'+ui.item.value+'</td></tr>'+
                               '<tr><td>Address: </td><td>'+ ui.item.address +'</td></tr>'+
                               '<tr><td>Category: </td><td>'+ ui.item.cat_name +'</td></tr>'+
-                              '<tr><td>SubCategory-1: </td><td>'+ ui.item.subcat1_name +'</td></tr>'+
-                              '<tr><td>SubCategory-2: </td><td>'+ ui.item.subcat2_name +'</td></tr>'+
-                              '<tr><td>Rack: </td><td>'+ ui.item.rack_name +'</td></tr>'+
-                              '<tr><td>Rack type: </td><td>'+ ui.item.rack_type +'</td></tr>'+
-                              '<tr><td>Availability: </td><td>'+ ui.item._status +'</td></tr>'+
+                              '<tr><td>SubCategory-1: </td><td>'+ _subcat1 +'</td></tr>'+
+                              '<tr><td>SubCategory-2: </td><td>'+ _subcat2 +'</td></tr>'+
+                              '<tr><td>Rack: </td><td>'+ _rack_name +'</td></tr>'+
+                              '<tr><td>Rack type: </td><td>'+ _rack_type +'</td></tr>'+
+                              '<tr><td>Availability: </td><td>'+ _status +'</td></tr>'+
                           '</table>'+
                           '</div></td></tr>'+
                           '<tr><td><h4>LOCATION MAP</h4></td></tr>'+

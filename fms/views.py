@@ -25,7 +25,6 @@ import StringIO
 
 ALLOWED_USERS = ['shanmuk.mir@gmail.com', 'mansarch@gmail.com', 'cgbmtblr@gmail.com']
 
-
 def login(request):
   return render_to_response('fms/login.html', RequestContext(request))
 

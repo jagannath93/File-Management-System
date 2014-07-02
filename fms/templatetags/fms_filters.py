@@ -23,3 +23,12 @@ def format_val(arg):
   else:
     return "--"
 
+@register.filter
+def format_book_cat(book):
+  cats = book.categories.all()
+  categories = ''
+  for cat in cats:
+    categories += cat.name
+    if len(cats) > 1:
+      categories += ", "
+  return categories

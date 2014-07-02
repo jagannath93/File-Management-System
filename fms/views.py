@@ -378,8 +378,14 @@ def book_search(request):
 
         data = []
         for book in books[:10]:
+          cats = book.categories.all()
+          categories = ''
+          for cat in cats:
+            categories += cat.name
+            if len(cats) > 1:
+              categories += ", "
           #address = {'rack': book.address.rack, 'row': book.address.row, 'shelf_set': book.address.shelf_set}
-          tmp = {'name': book.name, 'code': book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
+          tmp = {'name': book.name, 'code': book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'categories': categories, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
           data.append(tmp)
         return HttpResponse(json.dumps(data),  mimetype='application/json')
       else:
@@ -395,8 +401,14 @@ def get_book_data(request):
   if request.method == 'GET' and request.is_ajax():
     book_id = request.GET.get('book_id')
     book = Book.objects.get(pk=book_id)
+    cats = book.categories.all()
+    categories = ''
+    for cat in cats:
+      categories += cat.name
+      if len(cats) > 1:
+        categories += ", "
     #address = {'rack': book.address.rack, 'row': book.address.row, 'shelf_set': book.address.shelf_set}
-    bdata = {'name': book.name, 'code':book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
+    bdata = {'name': book.name, 'code':book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'categories': categories, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
     data = {'bdata': bdata}
     return HttpResponse(json.dumps(data),  mimetype='application/json')
   else:
@@ -458,8 +470,14 @@ def public_book_search(request):
 
       data = []
       for book in books[:10]:
+        cats = book.categories.all()
+        categories = ''
+        for cat in cats:
+          categories += cat.name
+          if len(cats) > 1:
+            categories += ", "
         #address = {'rack': book.address.rack, 'row': book.address.row, 'shelf_set': book.address.shelf_set}
-        tmp = {'name': book.name, 'code': book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
+        tmp = {'name': book.name, 'code': book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status,  'categories': categories, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
         data.append(tmp)
       return HttpResponse(json.dumps(data),  mimetype='application/json')
     else:
@@ -478,8 +496,15 @@ def books_list(request):
           books = cat.category_books.all()
           bdata = []
           for book in books:
+            cats = book.categories.all()
+            categories = ''
+            for cat in cats:
+              categories += cat.name
+              if len(cats) > 1:
+                categories += ", "
+
             tmp = {'name': book.name, 'code': book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher,\
-                    'status': book.avilability_status, 'author': book.author, 'image': book.image.url, 'address': str(book.address)}
+                    'status': book.avilability_status, 'categories': categories, 'author': book.author, 'image': book.image.url, 'address': str(book.address)}
             bdata.append(tmp)
           data = {'bdata': bdata}
           return HttpResponse(json.dumps(data), mimetype='application/json')
@@ -487,8 +512,15 @@ def books_list(request):
           books = Book.objects.all()
           bdata = []
           for book in books:
+            cats = book.categories.all()
+            categories = ''
+            for cat in cats:
+              categories += cat.name
+              if len(cats) > 1:
+                categories += ", "
+
             tmp = {'name': book.name, 'code': book.code,'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher,\
-                    'status': book.avilability_status, 'author': book.author, 'image': book.image.url, 'address': str(book.address)}
+                    'status': book.avilability_status,  'categories': categories, 'author': book.author, 'image': book.image.url, 'address': str(book.address)}
             bdata.append(tmp)
           data = {'bdata': bdata}
           return render_to_response('fms/books-list.html', data, RequestContext(request))
@@ -648,7 +680,14 @@ def search_books(request):
       )
       data = []
       for book in books:
-        tmp = {'name': book.name, 'code': book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
+        cats = book.categories.all()
+        categories = ''
+        for cat in cats:
+          categories += cat.name
+          if len(cats) > 1:
+            categories += ", "
+
+        tmp = {'name': book.name, 'code': book.code, 'isbn': str(book.isbn_number), 'id': str(book.pk), 'publisher': book.publisher, 'status': book.avilability_status, 'categories': categories, 'author': book.author, 'address': str(book.address), 'image': book.image.url}
         data.append(tmp)
       return HttpResponse(json.dumps(data),  mimetype='application/json')
     else:

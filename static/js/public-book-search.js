@@ -66,6 +66,7 @@ $(document).ready(function() {
                             '<table class="table table-striped table-bordered table-condensed">'+
                               '<tr><td>Name: </td><td>'+book.name+'</td></tr>'+
                               '<tr><td>Number: </td><td>'+ book.code +'</td></tr>'+
+                              '<tr><td>Category: </td><td>'+ book.categories +'</td></tr>'+
                               '<tr><td>ISBN Number: </td><td>'+ _isbn +'</td></tr>'+
                               '<tr><td>Publisher: </td><td>'+ _publisher +'</td></tr>'+
                               '<tr><td>Author: </td><td>'+ _author +'</td></tr>'+

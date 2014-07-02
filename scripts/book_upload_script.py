@@ -42,7 +42,7 @@ def load_data(arg1, arg2):
         if os.path.isfile('media/books/'+arg1+'/'+book.code+'.jpg'): 
           image = File(open('media/books/'+arg1+'/'+book.code+'.jpg')) 
           book.image = image
-          book.image.save()
+          #book.image.save()
           book.save()
         print code+": - DONE."
       else:
@@ -55,7 +55,7 @@ def load_data(arg1, arg2):
         if os.path.isfile('media/books/'+arg1+'/'+tmp[0].code+'.jpg'): 
           image = File(open('media/books/'+arg1+'/'+tmp[0].code+'.jpg')) 
           tmp[0].image = image
-          tmp[0].image.save()
+          #tmp[0].image.save()
         tmp[0].save()
         print code+": - Already existing... Updated"
   except Exception as e:

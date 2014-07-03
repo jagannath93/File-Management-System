@@ -61,8 +61,12 @@ $(document).ready(function() {
 
     /* ON BUTTON CLICK */
     $('.get_list_btn').click(function(){
+
+      $(this).popover({ title: 'Fetching Data... Please Wait', html:true});
+
       var filter_data = { filter1: $(".filter1").val(), filter2: $(".filter2").val(), filter3: $(".filter3").val() };
       $.get('/fms/document/list/', filter_data, function(res){
+         $('.get_list_btn').popover('hide');
          var ele = '';
          for(var i=0; i<res.length; i++)
          {

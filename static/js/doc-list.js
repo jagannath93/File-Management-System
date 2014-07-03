@@ -62,17 +62,16 @@ $(document).ready(function() {
     /* ON BUTTON CLICK */
     $('.get_list_btn').click(function(){
 
-      $(this).button('loading');
+      $(this).popover({ title: 'Loading Data.....  Please Wait', html:true});
 
       var filter_data = { filter1: $(".filter1").val(), filter2: $(".filter2").val(), filter3: $(".filter3").val() };
       $.get('/fms/document/list/', filter_data, function(res){
-         
-         $('.get_list_btn').button('reset');
-
-         var ele = '';
+     
+     $('.get_list_btn').popover('hide');
+     
+     var ele = '';
          for(var i=0; i<res.length; i++)
          {
-
             var _status = (res[i]._status == true) ? '<span style="color:green;"><b>YES<b></span>' : '<span style="color:red;"><b>No</b></span>';
             var _subcat1 = (res[i].subcat1.name != undefined) ? res[i].subcat1.name:"--";
             var _subcat2 = (res[i].subcat2.name != undefined) ? res[i].subcat2.name:"--";

@@ -66,6 +66,14 @@ $(document).ready(function() {
          var ele = '';
          for(var i=0; i<res.length; i++)
          {
+
+            var _status = (res[i]._status == true) ? '<span style="color:green;"><b>YES<b></span>' : '<span style="color:red;"><b>No</b></span>';
+            var _subcat1 = (res[i].subcat1.name != undefined) ? res[i].subcat1.name:"--";
+            var _subcat2 = (res[i].subcat2.name != undefined) ? res[i].subcat2.name:"--";
+            var _rack_name = (res[i].rack.name != undefined) ? res[i].rack.name:"--";
+            var _rack_type = (res[i].rack.type != undefined) ? res[i].rack.type:"--";
+
+
            ele += '<div class="doc-data">'+
                               '<legend>'+ res[i].name +'</legend>'+
                               '<table class="entry-table table table-striped table-bordered table-condensed">'+
@@ -76,11 +84,11 @@ $(document).ready(function() {
                                 '<tr><td>Name: </td><td>'+ res[i].name +'</td></tr>'+
                                 '<tr><td>Address: </td><td>'+ res[i].address +'</td></tr>'+
                                 '<tr><td>Category: </td><td>'+ res[i].cat.name +'</td></tr>'+
-                                '<tr><td>SubCategory-1: </td><td>'+ res[i].subcat1.name +'</td></tr>'+
-                                '<tr><td>SubCategory-2: </td><td>'+ res[i].subcat2.name +'</td></tr>'+
-                                '<tr><td>Rack: </td><td>'+ res[i].rack.rack_name +'</td></tr>'+
-                                '<tr><td>Rack type: </td><td>'+ res[i].rack.type +'</td></tr>'+
-                                '<tr><td>Availability: </td><td>'+ res[i]._status +'</td></tr>'+
+                                '<tr><td>SubCategory-1: </td><td>'+ _subcat1 +'</td></tr>'+
+                                '<tr><td>SubCategory-2: </td><td>'+ _subcat2 +'</td></tr>'+
+                                '<tr><td>Rack: </td><td>'+ _rack_name +'</td></tr>'+
+                                '<tr><td>Rack type: </td><td>'+ _rack_type +'</td></tr>'+
+                                '<tr><td>Availability: </td><td>'+ _status +'</td></tr>'+
                             '</table>'+
                             '</div></td></tr></table>'+
                           '</div><br>';                 

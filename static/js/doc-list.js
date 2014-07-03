@@ -62,11 +62,13 @@ $(document).ready(function() {
     /* ON BUTTON CLICK */
     $('.get_list_btn').click(function(){
 
-      $(this).popover({ title: 'Loading Data.....  Please Wait', html:true});
+      $(this).button('loading');
 
       var filter_data = { filter1: $(".filter1").val(), filter2: $(".filter2").val(), filter3: $(".filter3").val() };
       $.get('/fms/document/list/', filter_data, function(res){
-         $('.get_list_btn').popover('hide');
+         
+         $('.get_list_btn').button('reset');
+
          var ele = '';
          for(var i=0; i<res.length; i++)
          {

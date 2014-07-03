@@ -1,15 +1,16 @@
 $(document).ready(function() {
     $(".cat-filter").change(function(){
-      console.log($(this).val());
+
+      $(this).popover({ title: 'Loading Data.....  Please Wait', html:true});
       var data = { cat: $(this).val() };
       $.get('/fms/book-list/', data, function(res){
-        console.log(res);
+        $('.cat-filter').popover('hide');
+
         var books = res.bdata;
         if(books.length == 0)
         { $('#main').html('<span><b>No Books Found.</b></span>'); }  
         else
         {
-        //console.log(books);
           var ele = '';
           for(var i=0; i<books.length; i++)
           {
@@ -19,7 +20,6 @@ $(document).ready(function() {
             var _isbn = (book.isbn != 'None') ? book.isbn:"--";
             var _publisher = book.publisher ? book.publisher:"--";
             var _author = book.author ? book.author:"--";
-            console.log(book);
             ele += '<div class="book-data">'+
                                 '<legend>'+ book.name +'</legend>'+
                                 '<table class="entry-table table table-striped table-bordered table-condensed">'+

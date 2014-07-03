@@ -101,11 +101,11 @@ def doc_search(request):
           if len(cat) is not 0:
             docs = cat[0].document_set.all()
             if not filter2 == '' and filter2 is not None:
-              subcat1 = DocumentSubCategory1.objects.filter(code=filter2)
+              subcat1 = DocumentSubCategory1.objects.filter(code=filter2, cat=cat)
               if len(subcat1) is not 0:
                 docs = docs.filter(subcat1=subcat1[0])
                 if not filter3 == '' and filter3 is not None:
-                  subcat2 = DocumentSubCategory2.objects.filter(code=filter3)
+                  subcat2 = DocumentSubCategory2.objects.filter(code=filter3, cat=cat, subcat1=subcat1)
                   if len(subcat2) is not 0:
                     docs = docs.filter(subcat2=subcat2[0])
                   else:
@@ -171,11 +171,11 @@ def doc_list(request):
         if len(cat) is not 0:
           docs = cat[0].document_set.all()
           if not filter2 == '' and filter2 is not None:
-            subcat1 = DocumentSubCategory1.objects.filter(code=filter2)
+            subcat1 = DocumentSubCategory1.objects.filter(code=filter2, cat=cat)
             if len(subcat1) is not 0:
               docs = docs.filter(subcat1=subcat1[0])
               if not filter3 == '' and filter3 is not None:
-                subcat2 = DocumentSubCategory2.objects.filter(code=filter3)
+                subcat2 = DocumentSubCategory2.objects.filter(code=filter3, cat=cat, subcat1=subcat1)
                 if len(subcat2) is not 0:
                   docs = docs.filter(subcat2=subcat2[0])
                 else:

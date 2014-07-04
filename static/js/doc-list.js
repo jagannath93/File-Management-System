@@ -50,6 +50,11 @@ $(document).ready(function() {
             { $('.filter3box').remove(); }
             $(_filter3).appendTo('.filter-box');
           }
+          else
+          {
+            if($('.filter3box'))
+            { $('.filter3box').remove();  }
+          }
         });
       }
       else

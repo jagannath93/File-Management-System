@@ -438,11 +438,16 @@ def public_book_search(request):
         else:
           return HttpResponse("Invalid filter!")
       else:
-        rm_cat = Category.objects.get(name='Reference')
+        #rm_cat = Category.objects.get(name='Reference')
         books = Book.objects.all()
+        """
         for book in books:
           if rm_cat in book.categories.all():
-            books.remove(book)
+            books.exclude(pk=book.pk)
+            print book
+        print books
+            #print books
+        """
 
       # Filter1
       if not filter1 == '':

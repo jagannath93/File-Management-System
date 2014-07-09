@@ -132,6 +132,18 @@
             </div>
           </td>
         </tr>
+        <tr>
+          <td>
+            <button type="button" id="location-btn-{{ doc.id }}" class="btn" data-toggle="collapse" data-target="#doc-location-{{ doc.id }}">Show Document Location</h5>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="doc-location-{{ doc.id }}" class="collapse" img-url="/{{ doc.rack.image.image  }}">
+              <!--img src="/{{ doc.rack.image.image }}" alt="Document Location Image"/-->
+            </div>
+          </td>
+        </tr>
       </table>
     </div>
     <br>

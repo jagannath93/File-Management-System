@@ -203,10 +203,14 @@ def doc_list(request):
           _subcat2 = {}
         if doc.rack is not None:
           _rack = {'name': doc.rack.rack_name, 'type': doc.rack.type}
+          if doc.rack.image is not None:
+            image_url = doc.rack.image.image.url
+          else:
+            image_url = 'media/base-layout.jpg' # Default Layout Plan.
         else:
           _rack = {}
       
-        tmp = {'name': doc.name, 'doc_no': doc.document_number , 'address': doc.address, 'cat': _cat, 'subcat1': _subcat1, 'subcat2': _subcat2, 'rack': _rack, 'id': doc.pk, '_status': doc.avilability_status}
+        tmp = {'name': doc.name, 'doc_no': doc.document_number , 'address': doc.address, 'cat': _cat, 'subcat1': _subcat1, 'subcat2': _subcat2, 'rack': _rack, 'id': doc.pk, '_status': doc.avilability_status, 'image_url': image_url}
         data.append(tmp)
       return HttpResponse(json.dumps(data),  mimetype='application/json')
     else:

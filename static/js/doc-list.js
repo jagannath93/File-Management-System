@@ -64,6 +64,21 @@ $(document).ready(function() {
       }
     });
 
+    $(".collapse").on("show", function(){
+      var ele_id = $(this).attr("id");
+      var id = ele_id.replace("doc-location-", "");
+      $("#location-btn-"+id).text("Hide Document Location")
+      var url = $(this).attr('img-url');
+      var content = "<img src='"+ url +"' alt='Document Location Image' />";
+      $(this).html(content);
+    });
+    
+    $(".collapse").on("hide", function(){
+      var ele_id = $(this).attr("id");
+      var id = ele_id.replace("doc-location-", "");
+      $("#location-btn-"+id).text("Show Document Location")
+    });
+
     /* ON BUTTON CLICK */
     $('.get_list_btn').click(function(){
 
@@ -100,7 +115,20 @@ $(document).ready(function() {
                                 '<tr><td>Rack type: </td><td>'+ _rack_type +'</td></tr>'+
                                 '<tr><td>Availability: </td><td>'+ _status +'</td></tr>'+
                             '</table>'+
-                            '</div></td></tr></table>'+
+                            '</div>'+
+                            '</td>'+
+                            '</tr>'+
+                            '<tr>'+
+                              '<td>'+
+                               '<button type="button" id="location-btn-'+ res[i].id +'" class="btn" data-toggle="collapse" data-target="#doc-location-'+ res[i].id +'">Show Document Location</h5>'+
+                              '</td>'+
+                            '</tr>'+
+                            '<tr>'+
+                              '<td>'+
+                                '<div id="doc-location-'+ res[i].id +'" class="collapse" img-url="/'+ res[i].image_url +'"></div>'+
+                              '</td>'+
+                            '</tr>'+
+                            '</table>'+
                           '</div><br>';                 
 
          }

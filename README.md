@@ -3,8 +3,10 @@ File-Management-System
 
 A 'File Management System' for Manasaram Architects, Bangalore, India
 
-License MIT
+License
 =========================
+
+The MIT License (MIT)
 
 Copyright (c) 2014 Manasaram Architects <mansarch@gmail.com>,   
 Copyright (c) 2014 Jagannadh Vangala <shanmuk.mir@gmail.com>

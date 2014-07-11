@@ -1,7 +1,18 @@
 File-Management-System
 =========================
 
-A 'File Management System' for Manasaram Architects, Bangalore, India
+A Django app to manage large number of documents and books with much ease.
+
+
+Features
+=========================
+
+* Almost any kind of document can be added
+
+* Social auth login (Google)
+
+* Intututive Interface
+
 
 License
 =========================

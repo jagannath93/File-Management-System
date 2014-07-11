@@ -67,7 +67,6 @@ $(document).ready(function() {
     //$(".collapse").collapse();
 
     $(document).on("show", ".collapse", function(){
-      console.log("cp-1");
       var ele_id = $(this).attr("id");
       var id = ele_id.replace("doc-location-", "");
       $("#location-btn-"+id).text("Hide Document Location")
@@ -77,7 +76,6 @@ $(document).ready(function() {
     });
     
     $(document).on("hide", ".collapse", function(){
-      console.log("cp-2");
       var ele_id = $(this).attr("id");
       var id = ele_id.replace("doc-location-", "");
       $("#location-btn-"+id).text("Show Document Location")

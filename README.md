@@ -1,13 +1,13 @@
-Library-Management-System
+File-Management-System
 =========================
 
-A 'Library Management System' for Manasaram Architects, Bangalore
+A 'File Management System' for Manasaram Architects, Bangalore
 
 License MIT
 =========================
 
-Copyright (c) 2014 Manasaram Architects
-Copyright (c) 2014 Jagannadh Vangala
+Copyright (c) 2014 Manasaram Architects <mansarch@gmail.com>,   
+Copyright (c) 2014 Jagannadh Vangala <shanmuk.mir@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
